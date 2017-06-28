@@ -316,8 +316,10 @@ public class Metodo {
     }
 
     public void perturbacao(Maquina[] solucao, int forca) {
-        Random gerador = new Random();
-        for (int i = 0; i < forca; i++) {
+       try
+       {
+            Random gerador = new Random();
+            for (int i = 0; i < forca; i++) {
             
             int m1 = gerador.nextInt(solucao.length);
             int t = gerador.nextInt(solucao[m1].getAlocadas().size());
@@ -331,6 +333,7 @@ public class Metodo {
             realocaTarefa(solucao[m1], solucao[m2], solucao[m1].getAlocadas().get(t), solucao[m2].getAlocadas().get(j));
             //System.out.println("makespan: "+makeSpan(solucao));
         }
+       }catch(Exception e){}
     }
 
 }

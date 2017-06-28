@@ -134,5 +134,9 @@ public class Maquina implements Comparable<Maquina>, Cloneable{
     public int getTempoTotal() {
         return tempoTotal;
     }
+    public void setAlocados(ArrayList<Tarefa> maq)
+    {
+        alocadas = maq;
+    }
 
 }

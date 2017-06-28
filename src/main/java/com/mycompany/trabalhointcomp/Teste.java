@@ -5,8 +5,13 @@
  */
 package com.mycompany.trabalhointcomp;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 /**
  *
@@ -17,37 +22,21 @@ public class Teste {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        // TODO code application logic here
-//        ArrayList<String> teste  = new ArrayList<>();
-//        teste.add("valor 1");
-//        teste.add("valor 2");
-//        teste.add("valor 3");
-//        teste.add("valor 4");
-//        teste.add("valor 5");
-//        System.out.println(Arrays.toString(teste.toArray()));
-//        teste.add(2,"valor teste");
-//        System.out.println(Arrays.toString(teste.toArray()));
-//        teste.remove("valor teste");
-//        System.out.println(Arrays.toString(teste.toArray()));
-//        int t = (int) ((int)8*0.3);
-//        System.out.println((int) ((int)8*0.3));
-        int a[] = new int[5];
-        a[0]=1;a[1]=2;a[2]=3;a[3]=4;a[4]=5;
-        int b[] = a.clone();
+    public static void main(String[] args) throws IOException {
+        String text1 = new String(Files.readAllBytes(Paths.get("/home/zumbi/Área de Trabalho/TrabIntComp/resultados")), StandardCharsets.UTF_8);
+        String text2 = new String(Files.readAllBytes(Paths.get("/home/zumbi/Área de Trabalho/TrabIntComp/RSDSTSol(1)/BoundsP_SDST_Large.csv")), StandardCharsets.UTF_8);
+        String[] result = text1.split("\n");
+        String[] ref = text2.split("\n");
+        HashMap<String,String> resultados = new HashMap<>();
+        HashMap<String,String> reff = new HashMap<>();
+        for(int i = 0 ; i < ref.length; i++){
+             reff.put(ref[i].split(",")[0], ref[i].split(",")[3]);
+        }
         
-        a[3]=4354;
-        
-        System.out.println(Arrays.toString(a));
-        System.out.println("-------------");
-        System.out.println(Arrays.toString(b));
-        
-        b  = a.clone();
-        
-        a[4]=3222;
-        System.out.println(Arrays.toString(a));
-        System.out.println("-------------");
-        System.out.println(Arrays.toString(b));
+        for(int i = 0 ; i < result.length; i++){
+            System.out.println(result[i].split(",")[0]+ " "+ result[i].split(",")[1]+ " " + reff.get(result[i].split(",")[0]));
+        }
     }
+    
     
 }

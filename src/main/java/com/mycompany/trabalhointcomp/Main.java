@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -112,33 +113,32 @@ public class Main {
 //        sol2 = null;
 //        sol2 = new Maquina[sol1.length];
         for(int i =0; i < sol1.length; i++){
-            sol2[i]=sol1[i].clone();
-        }
+            sol2[i]=sol1[i].clone();            
+            ArrayList<Tarefa> aMaq =  new ArrayList<>();
+           for(Tarefa t : sol1[i].getAlocadas())
+               aMaq.add((Tarefa)t.clone());
+           sol2[i].setAlocados(aMaq);        
+           }
     }
 
     public static void main(String[] args) throws IOException, CloneNotSupportedException {
         // TODO code application logic here
-        lerInstacia1("I_250_20_S_1-9_1.txt");
+        if(args[2].equals("1"))
+            lerInstacia1(args[0]);
+        else
+            lerInstancia2(args[0]);
         Metodo m = new Metodo();
+        long start = System.currentTimeMillis();
         m.Construtivo(maquinas, tarefas);
         m.buscaLocalF1(maquinas);
         m.buscaLocalF2(maquinas);
-        m.imprimeSolucao(maquinas,true);
-//        m.buscaLocalF1(maquinas);
-//        m.imprimeSolucao(maquinas,true);
-//        m.buscaLocalF2(maquinas);
-//        m.imprimeSolucao(maquinas,true);
-//        m.perturbacao(maquinas, 1);
-//        m.imprimeSolucao(maquinas,true);
-//        m.buscaLocalF1(maquinas);
-//        m.imprimeSolucao(maquinas,true);
-//        m.buscaLocalF2(maquinas);
-//        m.imprimeSolucao(maquinas,true);
         Maquina[] best = new Maquina[maquinas.length];
         clonarVetor(maquinas, best);
-        for(int i = 0 ; i < 20; i++){
-            System.out.println(i);
-            m.perturbacao(maquinas, 1);
+        int j = 1;
+        for(int i = 0 ; i < Integer.parseInt(args[1]); i++){
+            if(j>5) j = 1;
+            
+            m.perturbacao(maquinas, j);
             m.buscaLocalF1(maquinas);
             m.buscaLocalF2(maquinas);
             if(m.makeSpan(maquinas) > m.makeSpan(best)){
@@ -147,8 +147,12 @@ public class Main {
             else{
                 clonarVetor(maquinas, best);
             }
+            j++;
+            long finish = System.currentTimeMillis();
+            
         }
-        m.imprimeSolucao(maquinas,true);
+       System.out.println(m.makeSpan(maquinas));
+        
     }
 
 }
